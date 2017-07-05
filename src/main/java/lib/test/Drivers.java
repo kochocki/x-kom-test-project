@@ -11,6 +11,8 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import lib.enums.PropertiesType;
+
 public class Drivers {
 	public static WebDriver driver;
 	private final static String ffDriverFile = "geckodriver.exe";
@@ -44,8 +46,7 @@ public class Drivers {
 	}
 
 	private static Properties getBrowserProps() {
-		PropertiesReader pr = new PropertiesReader();
-		return pr.getBrowserProperties();
+		return PropertiesReader.getProperties(PropertiesType.BROWSER);
 	}
 
 	private static void setFirefoxDriver() {

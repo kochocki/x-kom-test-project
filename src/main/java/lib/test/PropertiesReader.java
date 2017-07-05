@@ -4,31 +4,16 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class PropertiesReader {
-	private String browserPropsPath = System.getProperty("user.dir") + "/src/resources/config/browser.properties";
-	private String testCasePropsFilename = System.getProperty("user.dir") + "/src/resources/config/test.properties";
+import lib.enums.PropertiesType;
 
-	public PropertiesReader() {
-		System.out.println(browserPropsPath);
-		System.out.println(testCasePropsFilename);
-
-	}
-
-	public Properties getTestCaseProperties() {
+public abstract class PropertiesReader {
+	public static Properties getProperties(PropertiesType pt) {
 		Properties props = new Properties();
 		try {
-			props.load(new FileInputStream(testCasePropsFilename));
+			props.load(new FileInputStream(pt.getPath()));
 		} catch (IOException e) {
-
-		}
-		return props;
-	}
-
-	public Properties getBrowserProperties() {
-		Properties props = new Properties();
-		try {
-			props.load(new FileInputStream(browserPropsPath));
-		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return props;
 	}
