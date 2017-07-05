@@ -38,6 +38,8 @@ public class Drivers {
 		default:
 			throw new InvalidParameterException("Unknown browser: " + p.getProperty("browser"));
 		}
+		Drivers.driver.manage().window().setSize(new Dimension(Integer.parseInt(p.getProperty("resolutionWidth")),
+				Integer.parseInt(p.getProperty("resolutionHeight"))));
 		System.out.println("Driver started");
 	}
 
@@ -50,15 +52,12 @@ public class Drivers {
 		System.setProperty("webdriver.gecko.driver", driverPath + ffDriverFile);
 		driverPath += ffDriverFile;
 		Drivers.driver = new FirefoxDriver();
-		Drivers.driver.manage().window().setSize(new Dimension(Integer.parseInt(p.getProperty("resolutionWidth")),
-				Integer.parseInt(p.getProperty("resolutionHeight"))));
+
 	}
 
 	private static void setChromeDriver() {
 		System.setProperty("webdriver.chrome.driver", driverPath + chromeDriverFile);
 		Drivers.driver = new ChromeDriver();
-		Drivers.driver.manage().window().setSize(new Dimension(Integer.parseInt(p.getProperty("resolutionWidth")),
-				Integer.parseInt(p.getProperty("resolutionHeight"))));
 	}
 
 	private static void setHtmlUnitDriver() {
@@ -70,6 +69,6 @@ public class Drivers {
 		caps.setJavascriptEnabled(true);
 		caps.setCapability("phantomjs.binary.path", driverPath + phantomjsDriverFile);
 		Drivers.driver = new PhantomJSDriver(caps);
-
 	}
+
 }
