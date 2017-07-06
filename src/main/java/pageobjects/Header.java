@@ -35,7 +35,7 @@ public abstract class Header extends BasePage {
 	}
 
 	public ProductPage clickFirstSuggestion() {
-		isLoaded(firstSuggestion);
+		waitUntilVisible(firstSuggestion);
 		firstSuggestion.click();
 		return new ProductPage();
 	}

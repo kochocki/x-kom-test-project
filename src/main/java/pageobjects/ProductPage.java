@@ -17,7 +17,7 @@ public class ProductPage extends Header {
 	private WebElement quantity;
 
 	public Product addToBasket() {
-		isLoaded(addToBasket);
+		waitUntilVisible(addToBasket);
 		addToBasket.click();
 		return getProduct();
 	}
