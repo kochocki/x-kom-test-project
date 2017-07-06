@@ -18,4 +18,8 @@ public abstract class BasePage {
 		new WebDriverWait(Drivers.driver, 30).until(ExpectedConditions.visibilityOf(element));
 	}
 
+	public String getCurrentUrl() {
+		return Drivers.driver.getCurrentUrl();
+	}
+
 }
