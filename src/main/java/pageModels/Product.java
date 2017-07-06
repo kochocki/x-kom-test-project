@@ -43,7 +43,7 @@ public class Product {
 
 		Product that = (Product) other;
 
-		return this.name.equals(that.name) && this.price.equals(that.price) && this.quantity == that.quantity;
+		return this.name.equals(that.name) && this.price.equals(that.price);
 	}
 
 	@Override
