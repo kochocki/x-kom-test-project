@@ -14,8 +14,12 @@ public abstract class BasePage {
 		System.out.println("Current URL: " + Drivers.driver.getCurrentUrl());
 	}
 
-	public void isLoaded(WebElement element) {
+	public void waitUntilVisible(WebElement element) {
 		new WebDriverWait(Drivers.driver, 30).until(ExpectedConditions.visibilityOf(element));
+	}
+
+	public void waitUntilInvisible(WebElement element) {
+		new WebDriverWait(Drivers.driver, 30).until(ExpectedConditions.invisibilityOf(element));
 	}
 
 	public String getCurrentUrl() {
