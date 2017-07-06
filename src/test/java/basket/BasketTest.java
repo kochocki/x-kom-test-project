@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -19,10 +20,10 @@ import pageobjects.ResultPage;
 
 public class BasketTest extends BaseTest {
 
-	MainPage mainPage;
-	BasketPage basketPage;
-	ProductPage productPage;
-	ResultPage resultPage;
+	private MainPage mainPage;
+	private BasketPage basketPage;
+	private ProductPage productPage;
+	private ResultPage resultPage;
 
 	@BeforeMethod
 	public void beforeTest() {
@@ -209,7 +210,7 @@ public class BasketTest extends BaseTest {
 		assertTrue(compareListOfProducts(productsInBasketBeforeDecrement, productsInBasketAfterDecrement));
 	}
 
-	// @AfterMethod
+	@AfterMethod
 	public void afterTest() {
 		super.afterTest();
 	}
@@ -227,7 +228,7 @@ public class BasketTest extends BaseTest {
 	private List<Product> mergeLastProductWithExisting(List<Product> products) {
 		Product lastProduct = products.get(products.size() - 1);
 		for (int i = 0; i <= products.size() - 2; i++) {
-			if (products.get(i).equals(lastProduct)) {
+			if (products.get(i).equalsWithoutQuantity(lastProduct)) {
 				products.get(i).setQuantity(products.get(i).getQuantity() + lastProduct.getQuantity());
 				products.remove(products.size() - 1);
 			}
