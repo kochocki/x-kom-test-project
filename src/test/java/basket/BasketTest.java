@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -124,7 +123,93 @@ public class BasketTest extends BaseTest {
 		assertTrue(compareListOfProducts(addedProducts, productsFromBasket));
 	}
 
-	@AfterMethod
+	@Test
+	public void addOneProductManuallyAndTwoTheSameAutomatically() {
+		String currentUrl;
+		List<Product> addedProducts = new ArrayList<Product>();
+		List<Product> productsFromBasket;
+		goTo("http://x-kom.pl");
+		mainPage = new MainPage();
+		mainPage.setSearchText("iphone 7");
+		mainPage.clickSearchButton();
+		resultPage = new ResultPage();
+		resultPage.clickFirstProduct();
+		productPage = new ProductPage();
+		currentUrl = productPage.getCurrentUrl();
+		addedProducts.add(productPage.addToBasket());
+		basketPage = new BasketPage();
+		goTo(currentUrl);
+		productPage = new ProductPage();
+		productPage.setQuantity(2);
+		addedProducts.add(productPage.addToBasket());
+		mergeLastProductWithExisting(addedProducts);
+		basketPage = new BasketPage();
+		productsFromBasket = basketPage.getAllProducts();
+		assertTrue(compareListOfProducts(addedProducts, productsFromBasket));
+	}
+
+	@Test
+	public void addOneProductAndDeleteIt() {
+		goTo("http://x-kom.pl");
+		mainPage = new MainPage();
+		mainPage.setSearchText("iphone 7");
+		mainPage.clickSearchButton();
+		resultPage = new ResultPage();
+		resultPage.clickFirstProduct();
+		productPage = new ProductPage();
+		productPage.addToBasket();
+		basketPage = new BasketPage();
+		basketPage.removeProduct(0);
+		assertEquals(
+				"Twój koszyk jest pusty.\nPrzejrzyj nasze produkty polecane na stronie g³ównej i wybierz coœ dla siebie.\nPrzywróæ koszyk",
+				basketPage.getEmptyBasketText());
+	}
+
+	@Test
+	public void incrementQuantityInBasketByButton() {
+		List<Product> productsInBasketBeforeIncrement;
+		List<Product> productsInBasketAfterIncrement;
+		goTo("http://x-kom.pl");
+		mainPage = new MainPage();
+		mainPage.setSearchText("iphone 7");
+		mainPage.clickSearchButton();
+		resultPage = new ResultPage();
+		resultPage.clickFirstProduct();
+		productPage = new ProductPage();
+		productPage.addToBasket();
+		basketPage = new BasketPage();
+		productsInBasketBeforeIncrement = basketPage.getAllProducts();
+		basketPage.incrementProductQuantity(0);
+		productsInBasketAfterIncrement = basketPage.getAllProducts();
+		// increment quantity of first product to make it comparable with
+		// product after increment in basket
+		productsInBasketBeforeIncrement.get(0).setQuantity(productsInBasketBeforeIncrement.get(0).getQuantity() + 1);
+		assertTrue(compareListOfProducts(productsInBasketBeforeIncrement, productsInBasketAfterIncrement));
+	}
+
+	@Test
+	public void decrementQuantityInBasketByButton() {
+		List<Product> productsInBasketBeforeDecrement;
+		List<Product> productsInBasketAfterDecrement;
+		goTo("http://x-kom.pl");
+		mainPage = new MainPage();
+		mainPage.setSearchText("iphone 7");
+		mainPage.clickSearchButton();
+		resultPage = new ResultPage();
+		resultPage.clickFirstProduct();
+		productPage = new ProductPage();
+		productPage.setQuantity(2).addToBasket();
+		basketPage = new BasketPage();
+		productsInBasketBeforeDecrement = basketPage.getAllProducts();
+		basketPage.decrementProductQuantity(0);
+		productsInBasketAfterDecrement = basketPage.getAllProducts();
+		// decrement quantity of first product to make it comparable with
+		// product after decrement in basket
+		productsInBasketBeforeDecrement.get(0).setQuantity(productsInBasketBeforeDecrement.get(0).getQuantity() - 1);
+		assertTrue(compareListOfProducts(productsInBasketBeforeDecrement, productsInBasketAfterDecrement));
+	}
+
+	// @AfterMethod
 	public void afterTest() {
 		super.afterTest();
 	}
