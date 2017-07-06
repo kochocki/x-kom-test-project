@@ -1,12 +1,14 @@
 package pageModels;
 
-public class ProductModel {
+public class Product {
 	private String name;
 	private Double price;
+	private int quantity;
 
-	public ProductModel(String name, Double price) {
+	public Product(String name, Double price, int quantity) {
 		this.name = name;
 		this.price = price;
+		this.quantity = quantity;
 	}
 
 	public String getName() {
@@ -23,5 +25,29 @@ public class ProductModel {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if (!(other instanceof Product)) {
+			return false;
+		}
+
+		Product that = (Product) other;
+
+		return this.name.equals(that.name) && this.price.equals(that.price) && this.quantity == that.quantity;
+	}
+
+	@Override
+	public String toString() {
+		return "Product [name=" + name + ", price=" + price + ", quantity=" + quantity + "]";
 	}
 }
