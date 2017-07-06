@@ -15,7 +15,7 @@ public abstract class BasePage {
 	}
 
 	public void isLoaded(WebElement element) {
-		new WebDriverWait(Drivers.driver, 120).until(ExpectedConditions.visibilityOf(element));
+		new WebDriverWait(Drivers.driver, 30).until(ExpectedConditions.visibilityOf(element));
 	}
 
 }
