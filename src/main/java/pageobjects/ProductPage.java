@@ -3,7 +3,7 @@ package pageobjects;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import pageModels.ProductModel;
+import pageModels.Product;
 import pageUtils.PriceUtil;
 
 public class ProductPage extends Header {
@@ -13,11 +13,13 @@ public class ProductPage extends Header {
 	private WebElement price;
 	@FindBy(css = ".product-info>h1[itemprop='name']")
 	private WebElement productName;
+	@FindBy(id = "productQuantityInput")
+	private WebElement quantity;
 
-	public BasketPage addToBasket() {
+	public Product addToBasket() {
 		isLoaded(addToBasket);
 		addToBasket.click();
-		return new BasketPage();
+		return getProduct();
 	}
 
 	public Double getProductPrice() {
@@ -28,8 +30,18 @@ public class ProductPage extends Header {
 		return productName.getText();
 	}
 
-	public ProductModel getProduct() {
-		return new ProductModel(getProductName(), getProductPrice());
+	public int getQuantity() {
+		return Integer.parseInt(quantity.getAttribute("value"));
+	}
+
+	public ProductPage setQuantity(int quantity) {
+		this.quantity.clear();
+		this.quantity.sendKeys(String.valueOf(quantity));
+		return this;
+	}
+
+	public Product getProduct() {
+		return new Product(getProductName(), getProductPrice(), getQuantity());
 	}
 
 }
