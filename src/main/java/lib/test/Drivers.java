@@ -51,7 +51,6 @@ public class Drivers {
 
 	private static void setFirefoxDriver() {
 		System.setProperty("webdriver.gecko.driver", driverPath + ffDriverFile);
-		driverPath += ffDriverFile;
 		Drivers.driver = new FirefoxDriver();
 
 	}
